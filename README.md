@@ -32,3 +32,5 @@ The dataset consists of 20 attributes, each representing a specific characterist
 -   `dependents`: Number of people being liable to provide maintenance for
 -   `telephone`: Telephone
 -   `foreign_worker`: Foreign worker
+
+## Preprocessing
