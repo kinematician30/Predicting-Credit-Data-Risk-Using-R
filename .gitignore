@@ -4,3 +4,4 @@
 .Ruserdata
 *.Rproj
 testing.Rmd
+*.nb.html
