@@ -1,0 +1,91 @@
+# Exploratory Data Analysis
+
+This EDA comes as part of the model building process, where its focus are applicants based the following focus are termed as `good` or `bad` risks:
+
+-   Job
+
+-   Property
+
+-   Credit History
+
+-   employment
+
+-   purpose
+
+-   status
+
+-   age
+
+-   credit history
+
+-   personal status
+
+-   housing
+
+## Importing libraries
+
+```{r}
+library(dplyr) # data manipulation & wrangling
+library(moments) # statistical functions
+library(ggplot2) # data visualization
+```
+
+### risk filtering
+
+The goal is to filter the different risks and make assessment with them.
+
+```{r}
+good_risk <- credit_data_recode |> 
+                filter(assessment == 'good')
+
+dim(good_risk)
+```
+
+```{r}
+# Bad risk
+bad_risk <- credit_data_recode |> 
+                filter(assessment == 'bad')
+
+dim(bad_risk)
+```
+
+### Jobs Assessment
+
+```{r}
+jb_assess_bad <- table(bad_risk$job)
+jb_assess_good <- table(good_risk$job)
+
+print("Good Risks")
+print(jb_assess_good)
+
+print("Bad Risks")
+print(jb_assess_bad)
+
+```
+
+```{r}
+ggplot(credit_data_recode, aes(x = "", y = job, fill = job)) +
+  geom_col() +
+  coord_polar(theta = 'y') +
+  labs(title = "Distribution of Loan Applicant Jobs") +
+  theme_void()+
+  theme(legend.position = 'bottom') 
+```
+
+```{r}
+# Assuming your data is in a dataframe named 'credit_data'
+
+# Create a summary table
+summary_data <- credit_data %>%
+  group_by(personal_status, assessment) %>%
+  summarise(count = n())
+
+# Create the pie chart
+ggplot(summary_data, aes(x = "", y = count, fill = assessment)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  theme_void() +
+  geom_text(aes(label = paste0(round(count/sum(count)*100), "%")), position = position_stack(vjust = 0.5)), group = assessment) +  # Group by assessment within each facet
+  facet_wrap(~ personal_status) +
+  labs(title = "Distribution of Risk Assessment by Marital Status")
+```
