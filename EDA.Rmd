@@ -89,3 +89,52 @@ ggplot(summary_data, aes(x = "", y = count, fill = assessment)) +
   facet_wrap(~ personal_status) +
   labs(title = "Distribution of Risk Assessment by Marital Status")
 ```
+
+### Credit Amount Distribution by Job
+
+```{r}
+ggplot(credit_data_recode, aes(x = job, y = credit_amount)) +
+  geom_boxplot() +
+  labs(x = "Job", y = "Credit Amount") +
+  ggtitle("Credit Amount Distribution by Job")
+```
+
+### Credit Amount Distribution by Purpose of Loan
+
+```{r}
+ggplot(credit_data_recode, aes(x = purpose, y = credit_amount)) +
+  geom_boxplot() +
+  labs(x = "Purpose", y = "Credit Amount") +
+  ggtitle("Credit Amount Distribution by Purpose")
+```
+
+```{r}
+sort(table(credit_data_recode$purpose), decreasing = TRUE)
+```
+
+### Credit Amount Distribution by Personal Status
+
+```{r}
+ggplot(credit_data_recode, aes(x = personal_status, y = credit_amount)) +
+  geom_boxplot() +
+  labs(x = "Personal Status", y = "Credit Amount") +
+  ggtitle("Credit Amount Distribution by Personal Status")
+```
+
+### Average Credit History By Personal Status
+
+```{r}
+avg_cred_stat <- credit_data_recode |> 
+                      group_by(personal_status) |> 
+                          summarise(avg_cred_hist = round(mean(credit_amount), 0))
+
+avg_cred_stat
+```
+
+```{r}
+avg_rate_pur <- credit_data_recode |> 
+                      group_by(purpose) |> 
+                          summarise(avg_cred_hist = round(mean(installment_rate), 0))
+
+avg_rate_pur
+```
