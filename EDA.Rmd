@@ -132,9 +132,9 @@ avg_cred_stat
 ```
 
 ```{r}
-avg_rate_pur <- credit_data_recode |> 
+avg_dur_pur <- credit_data_recode |> 
                       group_by(purpose) |> 
-                          summarise(avg_cred_hist = round(mean(installment_rate), 0))
+                          summarise(duration_avg = round(mean(duration), 0))
 
-avg_rate_pur
+avg_dur_pur
 ```
