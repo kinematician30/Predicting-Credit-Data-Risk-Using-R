@@ -73,6 +73,24 @@ ggplot(credit_data_recode, aes(x = "", y = job, fill = job)) +
 ```
 
 ```{r}
+ggplot(good_risk, aes(x = "", y = job, fill = job)) +
+  geom_col() +
+  coord_polar(theta = 'y') +
+  labs(title = "Distribution of Loan Applicant Jobs by Good Risk") +
+  theme_void()+
+  theme(legend.position = 'bottom') 
+```
+
+```{r}
+ggplot(bad_risk, aes(x = "", y = job, fill = job)) +
+  geom_col() +
+  coord_polar(theta = 'y') +
+  labs(title = "Distribution of Loan Applicant Jobs by Bad Risk") +
+  theme_void()+
+  theme(legend.position = 'bottom') 
+```
+
+```{r}
 # Assuming your data is in a dataframe named 'credit_data'
 
 # Create a summary table
@@ -93,10 +111,11 @@ ggplot(summary_data, aes(x = "", y = count, fill = assessment)) +
 ### Credit Amount Distribution by Job
 
 ```{r}
-ggplot(credit_data_recode, aes(x = job, y = credit_amount)) +
+ggplot(credit_data_recode, aes(x = job, y = credit_amount, color = job)) +
   geom_boxplot() +
   labs(x = "Job", y = "Credit Amount") +
-  ggtitle("Credit Amount Distribution by Job")
+  ggtitle("Credit Amount Distribution by Job") +
+  scale_color_manual(values = rainbow(4))
 ```
 
 ### Credit Amount Distribution by Purpose of Loan
@@ -137,4 +156,31 @@ avg_dur_pur <- credit_data_recode |>
                           summarise(duration_avg = round(mean(duration), 0))
 
 avg_dur_pur
+```
+
+```{r}
+cor_age_credit <- cor(credit_data_recode$age, credit_data_recode$credit_amount)
+
+ggplot(credit_data_recode, aes(x = age, y = credit_amount, color = assessment)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = F) +
+  labs(x = "Age of Applicants", 
+       y = "Credit Score of Applicants", 
+       title = paste0("Relationship between Credit Score & Age; Correlation: ", round(cor_age_credit, 2))
+       ) + theme_minimal() +
+  scale_color_manual(values = c('red', 'green'))
+```
+
+```{r}
+cor_inst_credit <- cor(credit_data_recode$installment_rate, credit_data_recode$credit_amount)
+
+ggplot(credit_data_recode, aes(x = installment_rate, y = credit_amount, color = assessment)) +
+  geom_point() +
+  # geom_smooth(method = 'lm', se = F) +
+  labs(x = "Installment of Applicants", 
+       y = "Credit Score of Applicants", 
+       title = paste0("Relationship between Credit Score & installment."), 
+       subtitle = paste0("Correlation: ", round(cor_inst_credit, 2))
+       ) + theme_minimal() +
+  scale_color_manual(values = c('red', 'green'))
 ```
