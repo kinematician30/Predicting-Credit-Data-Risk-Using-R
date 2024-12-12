@@ -184,3 +184,7 @@ ggplot(credit_data_recode, aes(x = installment_rate, y = credit_amount, color = 
        ) + theme_minimal() +
   scale_color_manual(values = c('red', 'green'))
 ```
+
+```{r}
+
+```
