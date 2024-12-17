@@ -64,7 +64,7 @@ credit_data_recode <- credit_data_recode %>%
 set.seed(123)
 
 # Shuffle data before splitting
-
+credit_data_recode <- credit_data_recode[sample(nrow(credit_data_recode)), ]
 
 # Split data into training and testing sets
 index <- createDataPartition(credit_data_recode$assessment, p = 0.7, list = FALSE)
