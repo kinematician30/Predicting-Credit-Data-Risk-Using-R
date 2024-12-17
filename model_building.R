@@ -34,6 +34,7 @@ categorical_plots <- lapply(categorical_vars, function(var) {
   plot_categorical_distribution(credit_data_recode, var)
 })
 
+
 # 2. Feature Engineering
 # Handle missing values (if any)
 credit_data_recode <- credit_data_recode %>%
@@ -43,7 +44,9 @@ credit_data_recode <- credit_data_recode %>%
 credit_data_recode <- credit_data_recode %>%
   mutate(age_group = cut(age, 
                          breaks = c(0, 25, 35, 45, 55, Inf), 
-                         labels = c("18-25", "26-35", "36-45", "46-55", "55+")))
+                         labels = c("18-25", "26-35", "36-45", "46-55", "55+")
+                         )
+         )
 
 # Encoding categorical variables
 credit_data_recode <- credit_data_recode %>%
@@ -54,6 +57,7 @@ credit_data_recode <- credit_data_recode %>%
     savings_account_encoded = as.numeric(factor(savings_account)),
     employment_encoded = as.numeric(factor(employment))
   )
+
 
 # 3. Model Building
 # Set seed for reproducibility
