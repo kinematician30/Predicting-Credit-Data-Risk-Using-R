@@ -81,7 +81,7 @@ dt_model <- rpart(
   formula = as.factor(assessment) ~ ., 
   data = train_data[, c(features, "assessment")],
   method = "class",
-  control = rpart.control(maxdepth = 5)
+  control = rpart.control(maxdepth = 10)
 )
 
 # Plot decision tree
