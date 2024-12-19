@@ -97,11 +97,23 @@ predictions <- predict(dt_model, test_data[, features], type = "class")
 conf_matrix <- confusionMatrix(predictions, as.factor(test_data$assessment))
 print(conf_matrix)
 
-# Additional Performance Metricss 
+# Additional Performance Metrics
 accuracy <- conf_matrix$overall['Accuracy']
 precision <- conf_matrix$byClass['Precision']
 recall <- conf_matrix$byClass['Recall']
 f1_score <- conf_matrix$byClass['F1']
+
+perf_metrics <- c(accuracy = accuracy,
+                  precision = precision,
+                  recall = recall,
+                  f1Score = f1_score)
+
+percantage <- function(i){
+  x = sprintf("%.2f", i * 100)
+  return(x)
+}
+
+sapply(perf_metrics, percantage)
 
 # Performance Summary
 performance_summary <- data.frame(
