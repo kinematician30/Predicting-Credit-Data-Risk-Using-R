@@ -6,6 +6,7 @@ library(caret)       # Machine learning workflows
 library(rpart)       # Decision Tree algorithm
 library(rpart.plot)  # Decision Tree visualization
 library(e1071)       # Additional model evaluation tools
+library(randomForest)
 
 # 1. Exploratory Data Analysis (EDA)
 # Load the dataset - Aleady Loaded
@@ -77,11 +78,25 @@ features <- c("duration", "credit_amount", "installment_rate", "age",
               "purpose_encoded", "savings_account_encoded", "employment_encoded")
 
 # Decision Tree Model
+# Decision Tree Model
 dt_model <- rpart(
   formula = as.factor(assessment) ~ ., 
   data = train_data[, c(features, "assessment")],
   method = "class",
-  control = rpart.control(maxdepth = 10)
+  control = rpart.control(
+    maxdepth = 10,
+    minsplit = 20,      # minimum observations in node before splitting
+    cp = 0.01,          # complexity parameter
+    minbucket = 7       # minimum observations in terminal nodes
+  )
+)
+
+# Using Random Forest
+rf_model <- randomForest(
+  as.factor(assessment) ~ .,
+  data = train_data[, c(features, "assessment")],
+  ntree = 500,
+  mtry = sqrt(length(features))
 )
 
 # Plot decision tree
@@ -89,13 +104,21 @@ rpart.plot(dt_model,
            main = "Credit Risk Decision Tree", 
            fallen.leaves = TRUE)
 
+
 # 4. Model Evaluation
-# Predictions
+# Predictions for Decision Tree Model
 predictions <- predict(dt_model, test_data[, features], type = "class")
 
-# Confusion Matrix
+#Predictions for Random Forest Model
+predictions_rf <- predict(rf_model, test_data[, features], type = "class")
+
+# Confusion Matrix for Decision Tree Model
 conf_matrix <- confusionMatrix(predictions, as.factor(test_data$assessment))
 print(conf_matrix)
+
+# Confusion Matrix for Random Forest Model
+conf_matrix_rf <- confusionMatrix(predictions_rf, as.factor(test_data$assessment))
+print(conf_matrix_rf)
 
 # Additional Performance Metrics
 accuracy <- conf_matrix$overall['Accuracy']
