@@ -126,10 +126,22 @@ precision <- conf_matrix$byClass['Precision']
 recall <- conf_matrix$byClass['Recall']
 f1_score <- conf_matrix$byClass['F1']
 
+# Additional performance metrics for Random Forest
+accuracy_rf <- conf_matrix_rf$overall['Accuracy']
+precision_rf <- conf_matrix_rf$byClass['Precision']
+recall_rf <- conf_matrix_rf$byClass['Recall']
+f1_score_rf <- conf_matrix_rf$byClass['F1']
+
 perf_metrics <- c(accuracy = accuracy,
                   precision = precision,
                   recall = recall,
                   f1Score = f1_score)
+
+# performance metrics for random forest
+perf_metrics_rf <- c(accuracy = accuracy_rf,
+                     precision = precision_rf,
+                     recall = recall_rf,
+                     f1Score = f1_score_rf)
 
 percantage <- function(i){
   x = sprintf("%.2f", i * 100)
@@ -137,10 +149,11 @@ percantage <- function(i){
 }
 
 sapply(perf_metrics, percantage)
+sapply(perf_metrics_rf, percantage)
 
 # Performance Summary
-performance_summary <- data.frame(
-  Metric = c("Accuracy", "Precision", "Recall", "F1 Score"),
-  Value = c(accuracy, precision, recall, f1_score)
-)
-print(performance_summary)
+# performance_summary <- data.frame(
+#   Metric = c("Accuracy", "Precision", "Recall", "F1 Score"),
+#   Value = c(accuracy, precision, recall, f1_score)
+# )
+# print(performance_summary)
