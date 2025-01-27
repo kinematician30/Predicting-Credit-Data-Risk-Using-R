@@ -35,6 +35,7 @@ categorical_plots <- lapply(categorical_vars, function(var) {
   plot_categorical_distribution(credit_data_recode, var)
 })
 
+categorical_plots
 
 # 2. Feature Engineering
 # Handle missing values (if any)
